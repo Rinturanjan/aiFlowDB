@@ -13,7 +13,7 @@ import "@xyflow/react/dist/style.css";
 import InputNode from "./nodes/InputNode";
 import ResultNode from "./nodes/ResultNode";
 
-const API_URL = "http://localhost:5000";
+const API_URL = "https://server-sfbu.onrender.com";
 
 const nodeTypes = {
   inputNode: InputNode,
