@@ -14,7 +14,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://your-client.onrender.com"
+      "https://client-mycj.onrender.com"
     ],
   })
 );
