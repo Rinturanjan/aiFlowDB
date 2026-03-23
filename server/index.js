@@ -16,6 +16,8 @@ app.use(
       "http://localhost:5173",
       "https://client-mycj.onrender.com"
     ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   })
 );
 app.use(express.json());
