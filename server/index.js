@@ -10,17 +10,20 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://client-mycj.onrender.com",
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://client-mycj.onrender.com",
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
+app.options("*", cors());
 app.use(express.json());
 
 mongoose
