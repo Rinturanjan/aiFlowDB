@@ -14,12 +14,13 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://client-mycj.onrender.com"
+      "https://client-mycj.onrender.com",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
+
 app.use(express.json());
 
 mongoose
@@ -35,7 +36,7 @@ const openrouter = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
   apiKey: process.env.OPENROUTER_API_KEY,
   defaultHeaders: {
-    "HTTP-Referer": "http://localhost:5173",
+    "HTTP-Referer": "https://client-mycj.onrender.com",
     "X-OpenRouter-Title": "AI Flow App",
   },
 });
@@ -50,6 +51,12 @@ app.post("/api/ask-ai", async (req, res) => {
 
     if (!prompt || !prompt.trim()) {
       return res.status(400).json({ message: "Prompt is required." });
+    }
+
+    if (!process.env.OPENROUTER_API_KEY) {
+      return res.status(500).json({
+        message: "OPENROUTER_API_KEY is missing in environment variables.",
+      });
     }
 
     console.log("Received prompt:", prompt);
@@ -105,8 +112,6 @@ app.post("/api/ask-ai", async (req, res) => {
         message: allFailedMessage,
       });
     }
-
-    console.log("OpenRouter full response:", completion);
 
     let answer = completion?.choices?.[0]?.message?.content;
 
@@ -172,5 +177,5 @@ app.post("/api/save", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
